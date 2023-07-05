@@ -33,6 +33,10 @@ recit1 = Player('pngwing.com.png',30,200,30,150,4)
 recit2 = Player('pngwing.com.png',520,200,30,150,4)
 speed_x, speed_y = 3,3 
 Ball = Gamesprite('Ball.png',200,200,50,50,4)
+font.init()
+font = font.Font(None,35)
+lose1 = font.render('Player1 lose',True,(180,0,0))
+lose2 = font.render('Player2 lose',True,(180,0,0))
 while game:
     for i in event.get():
         if i.type == QUIT:
@@ -44,6 +48,17 @@ while game:
         recit2.update2()
         Ball.rect.x+=speed_x
         Ball.rect.y+=speed_y
+        if sprite.collide_rect(recit1,Ball) or sprite.collide_rect(recit2,Ball):
+            speed_x*=-1
+            speed_y*=1
+        if Ball.rect.y > h-50 or Ball.rect.y < 0:
+            speed_y *=-1
+        if Ball.rect.x < 0:
+            finish = True
+            window.blit(lose1,(200,200))
+        if Ball.rect.x > w:
+            finish = True
+            window.blit(lose2,(200,200))
         recit1.reset()
         recit2.reset()
         Ball.reset()
